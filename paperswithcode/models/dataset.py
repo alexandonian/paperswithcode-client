@@ -1,11 +1,11 @@
 from typing import List, Optional
 
-from tea_client.models import TeaClientModel
 
 from paperswithcode.models.page import Page
+from paperswithcode.models.model import Model
 
 
-class Dataset(TeaClientModel):
+class Dataset(Model):
     """Dataset object.
 
     Attributes:
@@ -21,7 +21,7 @@ class Dataset(TeaClientModel):
     url: Optional[str]
 
 
-class DatasetCreateRequest(TeaClientModel):
+class DatasetCreateRequest(Model):
     """Task object.
 
     Attributes:
@@ -35,7 +35,7 @@ class DatasetCreateRequest(TeaClientModel):
     url: Optional[str] = None
 
 
-class DatasetUpdateRequest(TeaClientModel):
+class DatasetUpdateRequest(Model):
     """Evaluation table row object.
 
     Attributes:

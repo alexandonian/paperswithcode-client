@@ -1,11 +1,15 @@
+import logging
+import functools
 from urllib import parse
 from typing import Dict, Optional
 
-
-from tea_client.http import HttpClient
-from tea_client.handler import handler
-
 from paperswithcode.config import config
+from paperswithcode.http import HttpClient
+from paperswithcode.errors import (
+    HttpClientError,
+    PydanticValidationError,
+    ValidationError,
+)
 from paperswithcode.models import (
     Paper,
     Papers,
@@ -45,6 +49,30 @@ from paperswithcode.models import (
     EvaluationTableSyncRequest,
     EvaluationTableSyncResponse,
 )
+
+
+logger = logging.getLogger(__name__)
+
+
+def handler(func):
+    @functools.wraps(func)
+    def wrapper(self, *args, **kwargs):
+        try:
+            return func(self, *args, **kwargs)
+        except HttpClientError as e:
+            if e.status_code == 401:
+                # Try to refresh the token and call the function again.
+                if self.http.authorization_method == self.http.Authorization.jwt:
+                    try:
+                        self.refresh()
+                        return func(self, *args, **kwargs)
+                    except Exception as e:
+                        logger.warning("Failed to refresh token: %s", e)
+            raise
+        except PydanticValidationError as e:
+            raise ValidationError(error=e)
+
+    return wrapper
 
 
 class PapersWithCodeClient:
@@ -121,24 +149,24 @@ class PapersWithCodeClient:
     @handler
     def paper_list(
         self,
-        ordering: Optional[str] = None,
         q: Optional[str] = None,
         arxiv_id: Optional[str] = None,
         title: Optional[str] = None,
         abstract: Optional[str] = None,
+        ordering: Optional[str] = None,
         page: int = 1,
         items_per_page: int = 50,
     ) -> Papers:
         """Return a paginated list of papers.
 
         Args:
-            ordering (str, optional): Which field to use when ordering the
-                results.
             q (str, optional): Filter papers by querying the paper title and
                 abstract.
             arxiv_id (str, optional): Filter papers by arxiv id.
             title (str, optional): Filter papers by part of the title.
             abstract (str, optional): Filter papers by part of the abstract.
+            ordering (str, optional): Which field to use when ordering the
+                results.
             page (int): Desired page.
             items_per_page (int): Desired number of items per page.
                 Default: 50.
@@ -148,8 +176,6 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
         timeout = None
-        if ordering is not None:
-            params["ordering"] = ordering
         if q is not None:
             params["q"] = q
             timeout = 60
@@ -160,6 +186,8 @@ class PapersWithCodeClient:
         if abstract is not None:
             params["abstract"] = abstract
             timeout = 60
+        if ordering is not None:
+            params["ordering"] = ordering
         return self.__page(
             self.http.get("/papers/", params=params, timeout=timeout), Papers
         )
@@ -283,20 +311,18 @@ class PapersWithCodeClient:
     @handler
     def repository_list(
         self,
-        ordering: Optional[str] = None,
         q: Optional[str] = None,
         owner: Optional[str] = None,
         name: Optional[str] = None,
         stars: Optional[int] = None,
         framework: Optional[str] = None,
+        ordering: Optional[str] = None,
         page: int = 1,
         items_per_page: int = 50,
     ) -> Papers:
         """Return a paginated list of repositories.
 
         Args:
-            ordering (str, optional): Which field to use when ordering the
-                results.
             q (str, optional): Search all searchable fields.
             owner (str, optional): Filter repositories by owner.
             name (str, optional): Filter repositories by name.
@@ -305,6 +331,8 @@ class PapersWithCodeClient:
             framework (str, optional): Filter repositories by framework.
                 Available values: tf, pytorch, mxnet, torch, caffe2, jax,
                 paddle, mindspore.
+            ordering (str, optional): Which field to use when ordering the
+                results.
             page (int): Desired page.
             items_per_page (int): Desired number of items per page.
                 Default: 50.
@@ -314,8 +342,6 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
 
-        if ordering is not None:
-            params["ordering"] = ordering
         if q is not None:
             params["q"] = q
         if owner is not None:
@@ -326,6 +352,8 @@ class PapersWithCodeClient:
             params["stars"] = str(stars)
         if framework is not None:
             params["framework"] = framework
+        if ordering is not None:
+            params["ordering"] = ordering
         return self.__page(
             self.http.get("/repositories/", params=params),
             Repositories,
@@ -377,29 +405,27 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
         return self.__page(
-            self.http.get(
-                f"/repositories/{owner}/{name}/papers/", params=params
-            ),
+            self.http.get(f"/repositories/{owner}/{name}/papers/", params=params),
             Papers,
         )
 
     @handler
     def author_list(
         self,
-        ordering: Optional[str] = None,
         q: Optional[str] = None,
         full_name: Optional[str] = None,
+        ordering: Optional[str] = None,
         page: int = 1,
         items_per_page: int = 50,
     ) -> Authors:
         """Return a paginated list of paper authors.
 
         Args:
-            ordering (str, optional): Which field to use when ordering the
-                results.
             q (str, optional): Search all searchable fields.
             full_name (str, optional): Filter authors by part of their full
                 name.
+            ordering (str, optional): Which field to use when ordering the
+                results.
             page (int): Desired page.
             items_per_page (int): Desired number of items per page.
                 Default: 50.
@@ -409,12 +435,12 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
 
-        if ordering is not None:
-            params["ordering"] = ordering
         if q is not None:
             params["q"] = q
         if full_name is not None:
             params["full_name"] = full_name
+        if ordering is not None:
+            params["ordering"] = ordering
         return self.__page(self.http.get("/authors/", params=params), Authors)
 
     @handler
@@ -453,19 +479,19 @@ class PapersWithCodeClient:
     @handler
     def conference_list(
         self,
-        ordering: Optional[str] = None,
         q: Optional[str] = None,
         name: Optional[str] = None,
+        ordering: Optional[str] = None,
         page: int = 1,
         items_per_page: int = 50,
     ) -> Conferences:
         """Return a paginated list of conferences.
 
         Args:
-            ordering (str, optional): Which field to use when ordering the
-                results.
             q (str, optional): Search all searchable fields.
             name (str, optional): Filter conferences by part of the name.
+            ordering (str, optional): Which field to use when ordering the
+                results.
             page (int): Desired page.
             items_per_page (int): Desired number of items per page.
                 Default: 50.
@@ -474,15 +500,13 @@ class PapersWithCodeClient:
             Conferences: Conferences object.
         """
         params = self.__params(page, items_per_page)
-        if ordering is not None:
-            params["ordering"] = ordering
         if q is not None:
             params["q"] = q
         if name is not None:
             params["name"] = name
-        return self.__page(
-            self.http.get("/conferences/", params=params), Conferences
-        )
+        if ordering is not None:
+            params["ordering"] = ordering
+        return self.__page(self.http.get("/conferences/", params=params), Conferences)
 
     @handler
     def conference_get(self, conference_id: str) -> Conference:
@@ -520,9 +544,7 @@ class PapersWithCodeClient:
         )
 
     @handler
-    def proceeding_get(
-        self, conference_id: str, proceeding_id: str
-    ) -> Proceeding:
+    def proceeding_get(self, conference_id: str, proceeding_id: str) -> Proceeding:
         """Return a conference proceeding by it's ID.
 
         Args:
@@ -561,8 +583,7 @@ class PapersWithCodeClient:
         params = self.__params(page, items_per_page)
         return self.__page(
             self.http.get(
-                f"/conferences/{conference_id}/proceedings/{proceeding_id}"
-                f"/papers/",
+                f"/conferences/{conference_id}/proceedings/{proceeding_id}/papers/",
                 params=params,
             ),
             Papers,
@@ -571,19 +592,19 @@ class PapersWithCodeClient:
     @handler
     def area_list(
         self,
-        ordering: Optional[str] = None,
         q: Optional[str] = None,
         name: Optional[str] = None,
+        ordering: Optional[str] = None,
         page: int = 1,
         items_per_page: int = 50,
     ) -> Areas:
         """Return a paginated list of areas.
 
         Args:
-            ordering (str, optional): Which field to use when ordering the
-                results.
             q (str, optional): Filter areas by querying the area name.
             name (str, optional): Filter areas by part of the name.
+            ordering (str, optional): Which field to use when ordering the
+                results.
             page (int): Desired page.
             items_per_page (int): Desired number of items per page.
                 Default: 50.
@@ -593,14 +614,13 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
         timeout = None
-        if ordering is not None:
-            params["ordering"] = ordering
         if q is not None:
             params["q"] = q
             timeout = 60
         if name is not None:
             params["name"] = name
-
+        if ordering is not None:
+            params["ordering"] = ordering
         return self.__page(
             self.http.get("/areas/", params=params, timeout=timeout), Areas
         )
@@ -640,19 +660,19 @@ class PapersWithCodeClient:
     @handler
     def task_list(
         self,
-        ordering: Optional[str] = None,
         q: Optional[str] = None,
         name: Optional[str] = None,
+        ordering: Optional[str] = None,
         page: int = 1,
         items_per_page: int = 50,
     ) -> Tasks:
         """Return a paginated list of tasks.
 
         Args:
-            ordering (str, optional): Which field to use when ordering the
-                results.
             q (str, optional): Filter tasks by querying the task name.
             name (str, optional): Filter tasks by part of th name.
+            ordering (str, optional): Which field to use when ordering the
+                results.
             page (int): Desired page.
             items_per_page (int): Desired number of items per page.
                 Default: 50.
@@ -662,13 +682,13 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
         timeout = None
-        if ordering is not None:
-            params["ordering"] = ordering
         if q is not None:
             params["q"] = q
             timeout = 60
         if name is not None:
             params["name"] = name
+        if ordering is not None:
+            params["ordering"] = ordering
         return self.__page(
             self.http.get("/tasks/", params=params, timeout=timeout), Tasks
         )
@@ -803,21 +823,21 @@ class PapersWithCodeClient:
     @handler
     def dataset_list(
         self,
-        ordering: Optional[str] = None,
         q: Optional[str] = None,
         name: Optional[str] = None,
         full_name: Optional[str] = None,
+        ordering: Optional[str] = None,
         page: int = 1,
         items_per_page: int = 50,
     ) -> Datasets:
         """Return a paginated list of datasets.
 
         Args:
-            ordering (str, optional): Which field to use when ordering the
-                results.
             q (str, optional): Filter datasets by querying the dataset name.
             name (str, optional): Filter datasets by their name.
             full_name (str, optional): Filter datasets by their full name.
+            ordering (str, optional): Which field to use when ordering the
+                results.
             page (int): Desired page.
             items_per_page (int): Desired number of items per page.
                 Default: 50.
@@ -827,8 +847,6 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
         timeout = None
-        if ordering is not None:
-            params["ordering"] = ordering
         if q is not None:
             params["q"] = q
             timeout = 60
@@ -836,6 +854,8 @@ class PapersWithCodeClient:
             params["name"] = name
         if full_name is not None:
             params["full_name"] = full_name
+        if ordering is not None:
+            params["ordering"] = ordering
         return self.__page(
             self.http.get("/datasets/", params=params, timeout=timeout),
             Datasets,
@@ -866,9 +886,7 @@ class PapersWithCodeClient:
         return Dataset(**self.http.post("/datasets/", data=dataset))
 
     @handler
-    def dataset_update(
-        self, dataset_id: str, dataset: DatasetUpdateRequest
-    ) -> Dataset:
+    def dataset_update(self, dataset_id: str, dataset: DatasetUpdateRequest) -> Dataset:
         """Update a dataset.
 
         Args:
@@ -878,9 +896,7 @@ class PapersWithCodeClient:
         Returns:
             Dataset: Updated dataset.
         """
-        return Dataset(
-            **self.http.patch(f"/datasets/{dataset_id}/", data=dataset)
-        )
+        return Dataset(**self.http.patch(f"/datasets/{dataset_id}/", data=dataset))
 
     @handler
     def dataset_delete(self, dataset_id: str):
@@ -908,30 +924,28 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
         return self.__page(
-            self.http.get(
-                f"/datasets/{dataset_id}/evaluations/", params=params
-            ),
+            self.http.get(f"/datasets/{dataset_id}/evaluations/", params=params),
             EvaluationTables,
         )
 
     @handler
     def method_list(
         self,
-        ordering: Optional[str] = None,
         q: Optional[str] = None,
         name: Optional[str] = None,
         full_name: Optional[str] = None,
+        ordering: Optional[str] = None,
         page: int = 1,
         items_per_page: int = 50,
     ) -> Methods:
         """Return a paginated list of methods.
 
         Args:
-            ordering (str, optional): Which field to use when ordering the
-                results.
             q (str, optional): Search all searchable fields.
             name (str, optional): Filter methods by part of the name.
             full_name (str, optional): Filter methods by part of the full name.
+            ordering (str, optional): Which field to use when ordering the
+                results.
             page (int): Desired page.
             items_per_page (int): Desired number of items per page.
                 Default: 50.
@@ -941,8 +955,6 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
         timeout = None
-        if ordering is not None:
-            params["ordering"] = ordering
         if q is not None:
             params["q"] = q
             timeout = 60
@@ -950,6 +962,8 @@ class PapersWithCodeClient:
             params["name"] = name
         if full_name is not None:
             params["full_name"] = full_name
+        if ordering is not None:
+            params["ordering"] = ordering
         return self.__page(
             self.http.get("/methods/", params=params, timeout=timeout),
             Methods,
@@ -996,9 +1010,7 @@ class PapersWithCodeClient:
         Returns:
             EvaluationTable: Evaluation table object.
         """
-        return EvaluationTable(
-            **self.http.get(f"/evaluations/{evaluation_id}/")
-        )
+        return EvaluationTable(**self.http.get(f"/evaluations/{evaluation_id}/"))
 
     @handler
     def evaluation_create(
@@ -1013,9 +1025,7 @@ class PapersWithCodeClient:
         Returns:
             EvaluationTable: The new created evaluation table.
         """
-        return EvaluationTable(
-            **self.http.post("/evaluations/", data=evaluation)
-        )
+        return EvaluationTable(**self.http.post("/evaluations/", data=evaluation))
 
     @handler
     def evaluation_update(
@@ -1032,9 +1042,7 @@ class PapersWithCodeClient:
             EvaluationTable: The updated evaluation table.
         """
         return EvaluationTable(
-            **self.http.patch(
-                f"/evaluations/{evaluation_id}/", data=evaluation
-            )
+            **self.http.patch(f"/evaluations/{evaluation_id}/", data=evaluation)
         )
 
     @handler
@@ -1063,16 +1071,12 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
         return self.__page(
-            self.http.get(
-                f"/evaluations/{evaluation_id}/metrics/", params=params
-            ),
+            self.http.get(f"/evaluations/{evaluation_id}/metrics/", params=params),
             Metrics,
         )
 
     @handler
-    def evaluation_metric_get(
-        self, evaluation_id: str, metric_id: str
-    ) -> Metric:
+    def evaluation_metric_get(self, evaluation_id: str, metric_id: str) -> Metric:
         """Get a metrics used in the evaluation table.
 
         Args:
@@ -1083,9 +1087,7 @@ class PapersWithCodeClient:
             Metric: Requested metric.
         """
         return Metric(
-            **self.http.get(
-                f"/evaluations/{evaluation_id}/metrics/{metric_id}/"
-            )
+            **self.http.get(f"/evaluations/{evaluation_id}/metrics/{metric_id}/")
         )
 
     @handler
@@ -1102,9 +1104,7 @@ class PapersWithCodeClient:
             Metric: Created metric.
         """
         return Metric(
-            **self.http.post(
-                f"/evaluations/{evaluation_id}/metrics/", data=metric
-            )
+            **self.http.post(f"/evaluations/{evaluation_id}/metrics/", data=metric)
         )
 
     @handler
@@ -1155,16 +1155,12 @@ class PapersWithCodeClient:
         """
         params = self.__params(page, items_per_page)
         return self.__page(
-            self.http.get(
-                f"/evaluations/{evaluation_id}/results/", params=params
-            ),
+            self.http.get(f"/evaluations/{evaluation_id}/results/", params=params),
             Results,
         )
 
     @handler
-    def evaluation_result_get(
-        self, evaluation_id: str, result_id: str
-    ) -> Result:
+    def evaluation_result_get(self, evaluation_id: str, result_id: str) -> Result:
         """Get a result from the evaluation table.
 
         Args:
@@ -1175,9 +1171,7 @@ class PapersWithCodeClient:
             Result: Requested result.
         """
         return Result(
-            **self.http.get(
-                f"/evaluations/{evaluation_id}/results/{result_id}/"
-            )
+            **self.http.get(f"/evaluations/{evaluation_id}/results/{result_id}/")
         )
 
     @handler
@@ -1194,9 +1188,7 @@ class PapersWithCodeClient:
             Result: Created result.
         """
         return Result(
-            **self.http.post(
-                f"/evaluations/{evaluation_id}/results/", data=result
-            )
+            **self.http.post(f"/evaluations/{evaluation_id}/results/", data=result)
         )
 
     @handler

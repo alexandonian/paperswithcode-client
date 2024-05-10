@@ -1,9 +1,9 @@
 from typing import Optional
 
-from tea_client.models import TeaClientModel
+from paperswithcode.models.model import Model
 
 
-class Page(TeaClientModel):
+class Page(Model):
     """Page model.
 
     Attributes:

@@ -11,10 +11,9 @@ class Version:
 
     def __repr__(self):
         return (
-            f"Version(major={self.major}, minor={self.minor}, "
-            f"build={self.build})"
+            f"Version(major={self.major}, minor={self.minor}, " f"build={self.build})"
         )
 
 
-version = Version(0, 3, 0)
+version = Version(0, 4, 0)
 __version__ = str(version)

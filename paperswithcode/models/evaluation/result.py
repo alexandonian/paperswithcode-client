@@ -1,12 +1,11 @@
 from datetime import datetime
 from typing import Optional, List
 
-from tea_client.models import TeaClientModel
-
 from paperswithcode.models.page import Page
+from paperswithcode.models.model import Model
 
 
-class Result(TeaClientModel):
+class Result(Model):
     """Evaluation table row object.
 
     Attributes:
@@ -48,14 +47,14 @@ class Results(Page):
     results: List[Result]
 
 
-class _ResultRequest(TeaClientModel):
+class _ResultRequest(Model):
     def dict(
         self,
         *,
         include=None,
         exclude=None,
         by_alias: bool = False,
-        skip_defaults: bool = None,
+        skip_defaults: bool = False,
         exclude_unset: bool = False,
         exclude_defaults: bool = False,
         exclude_none: bool = False,

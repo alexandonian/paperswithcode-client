@@ -1,11 +1,11 @@
 from typing import List, Optional
 
-from tea_client.models import TeaClientModel
 
 from paperswithcode.models.page import Page
+from paperswithcode.models.model import Model
 
 
-class Conference(TeaClientModel):
+class Conference(Model):
     """Conference object.
 
     Attributes:
@@ -30,7 +30,7 @@ class Conferences(Page):
     results: List[Conference]
 
 
-class Proceeding(TeaClientModel):
+class Proceeding(Model):
     """Conference proceeding object.
 
     Attributes:

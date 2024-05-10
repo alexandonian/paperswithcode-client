@@ -1,12 +1,11 @@
 from datetime import date
 from typing import Optional, List
 
-from tea_client.models import TeaClientModel
-
 from paperswithcode.models.page import Page
+from paperswithcode.models.model import Model
 
 
-class Paper(TeaClientModel):
+class Paper(Model):
     """Paper object.
 
     Attributes:

@@ -1,11 +1,10 @@
 from typing import List, Optional
 
-from tea_client.models import TeaClientModel
-
 from paperswithcode.models.page import Page
+from paperswithcode.models.model import Model
 
 
-class EvaluationTable(TeaClientModel):
+class EvaluationTable(Model):
     """Evaluation table object.
 
     Attributes:
@@ -24,7 +23,7 @@ class EvaluationTable(TeaClientModel):
     mirror_url: Optional[str] = None
 
 
-class EvaluationTableCreateRequest(TeaClientModel):
+class EvaluationTableCreateRequest(Model):
     """Evaluation table create request object.
 
     Attributes:
@@ -41,7 +40,7 @@ class EvaluationTableCreateRequest(TeaClientModel):
     mirror_url: Optional[str] = None
 
 
-class EvaluationTableUpdateRequest(TeaClientModel):
+class EvaluationTableUpdateRequest(Model):
     """Evaluation table update request object.
 
     Attributes:

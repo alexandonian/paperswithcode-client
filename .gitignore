@@ -17,6 +17,7 @@ dist/
 # IDE Configuration
 .idea
 .vscode
+pyrightconfig.json
 
 # Virtualenv
 .venv

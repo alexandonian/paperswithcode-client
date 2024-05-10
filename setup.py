@@ -1,5 +1,5 @@
 import io
-import importlib
+import importlib.util
 from pathlib import Path
 from setuptools import setup, find_packages
 
@@ -14,8 +14,8 @@ def get_version():
     """Import the version module and get the project version from it."""
     version_py = Path(__file__).parent / "paperswithcode" / "version.py"
     spec = importlib.util.spec_from_file_location("version", version_py)
-    version = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(version)
+    version = importlib.util.module_from_spec(spec)  # type: ignore
+    spec.loader.exec_module(version)  # type: ignore
     return version.__version__
 
 

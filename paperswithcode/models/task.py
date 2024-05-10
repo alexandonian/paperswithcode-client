@@ -1,11 +1,10 @@
 from typing import List, Optional
 
-from tea_client.models import TeaClientModel
-
 from paperswithcode.models.page import Page
+from paperswithcode.models.model import Model
 
 
-class Area(TeaClientModel):
+class Area(Model):
     """Area object.
 
     Representing an area of research.
@@ -32,7 +31,7 @@ class Areas(Page):
     results: List[Area]
 
 
-class Task(TeaClientModel):
+class Task(Model):
     """Task object.
 
     Attributes:
@@ -46,7 +45,7 @@ class Task(TeaClientModel):
     description: str
 
 
-class TaskCreateRequest(TeaClientModel):
+class TaskCreateRequest(Model):
     """Task object.
 
     Attributes:
@@ -62,7 +61,7 @@ class TaskCreateRequest(TeaClientModel):
     parent_task: Optional[str] = None
 
 
-class TaskUpdateRequest(TeaClientModel):
+class TaskUpdateRequest(Model):
     """Evaluation table row object.
 
     Attributes:

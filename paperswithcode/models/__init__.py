@@ -1,5 +1,6 @@
 __all__ = [
     "Page",
+    "Model",
     "Paper",
     "Papers",
     "Repository",
@@ -45,6 +46,7 @@ __all__ = [
 ]
 
 from paperswithcode.models.page import Page
+from paperswithcode.models.model import Model
 from paperswithcode.models.paper import Paper, Papers
 from paperswithcode.models.repository import Repository, Repositories
 from paperswithcode.models.paper_repo import PaperRepo, PaperRepos

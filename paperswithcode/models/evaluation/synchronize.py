@@ -1,9 +1,7 @@
+from pydantic import Field
 from typing import Optional, List
 
-from pydantic import Field
-
-from tea_client.models import TeaClientModel
-
+from paperswithcode.models.model import Model
 from paperswithcode.models.evaluation.result import _ResultRequest
 
 
@@ -32,7 +30,7 @@ class ResultSyncRequest(_ResultRequest):
     external_source_url: Optional[str] = None
 
 
-class MetricSyncRequest(TeaClientModel):
+class MetricSyncRequest(Model):
     """Metric object.
 
     Metric used for evaluation.
@@ -48,7 +46,7 @@ class MetricSyncRequest(TeaClientModel):
     is_loss: bool = True
 
 
-class EvaluationTableSyncRequest(TeaClientModel):
+class EvaluationTableSyncRequest(Model):
     """Evaluation table object.
 
     Attributes:
@@ -74,7 +72,7 @@ class EvaluationTableSyncRequest(TeaClientModel):
     results: List[ResultSyncRequest] = Field(default_factory=list)
 
 
-class ResultSyncResponse(TeaClientModel):
+class ResultSyncResponse(Model):
     """Evaluation table row object.
 
     Attributes:
@@ -101,7 +99,7 @@ class ResultSyncResponse(TeaClientModel):
     external_source_url: Optional[str] = None
 
 
-class MetricSyncResponse(TeaClientModel):
+class MetricSyncResponse(Model):
     """Metric object.
 
     Metric used for evaluation.
@@ -117,7 +115,7 @@ class MetricSyncResponse(TeaClientModel):
     is_loss: bool = True
 
 
-class EvaluationTableSyncResponse(TeaClientModel):
+class EvaluationTableSyncResponse(Model):
     """Evaluation table object.
 
     Attributes:

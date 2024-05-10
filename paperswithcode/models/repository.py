@@ -1,11 +1,10 @@
 from typing import List, Optional
 
-from tea_client.models import TeaClientModel
-
 from paperswithcode.models.page import Page
+from paperswithcode.models.model import Model
 
 
-class Repository(TeaClientModel):
+class Repository(Model):
     """Repository object.
 
     Attributes:

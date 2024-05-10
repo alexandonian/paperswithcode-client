@@ -1,11 +1,10 @@
 from typing import List
 
-from tea_client.models import TeaClientModel
-
 from paperswithcode.models.page import Page
+from paperswithcode.models.model import Model
 
 
-class Author(TeaClientModel):
+class Author(Model):
     """Author object.
 
     Attributes:

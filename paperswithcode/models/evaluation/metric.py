@@ -1,11 +1,10 @@
 from typing import Optional, List
 
-from tea_client.models import TeaClientModel
-
 from paperswithcode.models.page import Page
+from paperswithcode.models.model import Model
 
 
-class Metric(TeaClientModel):
+class Metric(Model):
     """Metric object.
 
     Metric used for evaluation.
@@ -36,7 +35,7 @@ class Metrics(Page):
     results: List[Metric]
 
 
-class MetricCreateRequest(TeaClientModel):
+class MetricCreateRequest(Model):
     """Metric object.
 
     Metric used for evaluation.
@@ -52,7 +51,7 @@ class MetricCreateRequest(TeaClientModel):
     is_loss: bool
 
 
-class MetricUpdateRequest(TeaClientModel):
+class MetricUpdateRequest(Model):
     """Metric object.
 
     Metric used for evaluation.
