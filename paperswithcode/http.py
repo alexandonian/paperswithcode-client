@@ -1,5 +1,5 @@
 import enum
-from typing import Optional, Dict
+from typing import Optional
 
 import httpx
 
@@ -60,8 +60,8 @@ class HttpClient:
         self,
         method: str,
         url: str,
-        headers: Optional[Dict[str, str]] = None,
-        params: Optional[Dict[str, str]] = None,
+        headers: Optional[dict[str, str]] = None,
+        params: Optional[dict[str, str]] = None,
         data: Optional[Model] = None,
         timeout: Optional[float] = None,
     ) -> dict:
@@ -185,8 +185,8 @@ class HttpClient:
     def get(
         self,
         url: str,
-        headers: Optional[Dict[str, str]] = None,
-        params: Optional[Dict[str, str]] = None,
+        headers: Optional[dict[str, str]] = None,
+        params: Optional[dict[str, str]] = None,
         timeout: Optional[float] = None,
     ) -> dict:
         """Perform get request.
@@ -213,8 +213,8 @@ class HttpClient:
     def patch(
         self,
         url: str,
-        headers: Optional[Dict[str, str]] = None,
-        params: Optional[Dict[str, str]] = None,
+        headers: Optional[dict[str, str]] = None,
+        params: Optional[dict[str, str]] = None,
         data: Optional[Model] = None,
         timeout: Optional[float] = None,
     ) -> dict:
@@ -244,8 +244,8 @@ class HttpClient:
     def post(
         self,
         url: str,
-        headers: Optional[Dict[str, str]] = None,
-        params: Optional[Dict[str, str]] = None,
+        headers: Optional[dict[str, str]] = None,
+        params: Optional[dict[str, str]] = None,
         data: Optional[Model] = None,
         timeout: Optional[float] = None,
     ) -> dict:
@@ -275,8 +275,8 @@ class HttpClient:
     def delete(
         self,
         url,
-        headers: Optional[Dict[str, str]] = None,
-        params: Optional[Dict[str, str]] = None,
+        headers: Optional[dict[str, str]] = None,
+        params: Optional[dict[str, str]] = None,
         timeout: Optional[float] = None,
     ) -> dict:
         """Perform delete request.

@@ -36,4 +36,4 @@ check:               ## Run code checks.
 
 
 fmt:                 ## Format the code.
-	@black --target-version=py37 --safe --line-length=79 "$(PROJECT)"
+	@black --target-version=py39 --safe --line-length=88 "$(PROJECT)"

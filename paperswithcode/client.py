@@ -1,7 +1,7 @@
 import logging
 import functools
 from urllib import parse
-from typing import Dict, Optional
+from typing import Optional
 
 from paperswithcode.config import config
 from paperswithcode.http import HttpClient
@@ -87,7 +87,7 @@ class PapersWithCodeClient:
         )
 
     @staticmethod
-    def __params(page: int, items_per_page: int, **kwargs) -> Dict[str, str]:
+    def __params(page: int, items_per_page: int, **kwargs) -> dict[str, str]:
         params = {key: str(value) for key, value in kwargs.items()}
         params["page"] = str(page)
         params["items_per_page"] = str(items_per_page)
