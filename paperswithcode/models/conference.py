@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 
 from paperswithcode.models.page import Page
@@ -9,8 +9,8 @@ class Conference(Model):
     """Conference object.
 
     Attributes:
-        id (str): Conference ID.
-        name (str): Conerence name.
+        id: Conference ID.
+        name: Conerence name.
     """
 
     id: str
@@ -21,22 +21,22 @@ class Conferences(Page):
     """Object representing a paginated page of conferences.
 
     Attributes:
-        count (int): Number of elements matching the query.
-        next_page (int, optional): Number of the next page.
-        previous_page (int, optional): Number of the previous page.
-        results (List[Conference]): List of conferences on this page.
+        count: Number of elements matching the query.
+        next_page: Number of the next page.
+        previous_page: Number of the previous page.
+        results: List of conferences on this page.
     """
 
-    results: List[Conference]
+    results: list[Conference]
 
 
 class Proceeding(Model):
     """Conference proceeding object.
 
     Attributes:
-        id (str): Proceeding ID.
-        year (int, optinoal): Year in which the proceeding was held.
-        month (int, optional): Month in which the proceedingt was held.
+        id: Proceeding ID.
+        year: Year in which the proceeding was held.
+        month: Month in which the proceedingt was held.
     """
 
     id: str
@@ -48,10 +48,10 @@ class Proceedings(Page):
     """Object representing a paginated page of proceedings.
 
     Attributes:
-        count (int): Number of elements matching the query.
-        next_page (int, optional): Number of the next page.
-        previous_page (int, optional): Number of the previous page.
-        results (List[Proceeding]): List of proceedings on this page.
+        count: Number of elements matching the query.
+        next_page: Number of the next page.
+        previous_page: Number of the previous page.
+        results: List of proceedings on this page.
     """
 
-    results: List[Proceeding]
+    results: list[Proceeding]

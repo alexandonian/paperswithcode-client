@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from paperswithcode.models.page import Page
 from paperswithcode.models.model import Model
@@ -10,8 +10,8 @@ class Area(Model):
     Representing an area of research.
 
     Attributes:
-        id (str): Area ID.
-        name (str): Area name.
+        id: Area ID.
+        name: Area name.
     """
 
     id: str
@@ -22,22 +22,22 @@ class Areas(Page):
     """Object representing a paginated page of areas.
 
     Attributes:
-        count (int): Number of elements matching the query.
-        next_page (int, optional): Number of the next page.
-        previous_page (int, optional): Number of the previous page.
-        results (List[Area]): List of areas on this page.
+        count: Number of elements matching the query.
+        next_page: Number of the next page.
+        previous_page: Number of the previous page.
+        results: List of areas on this page.
     """
 
-    results: List[Area]
+    results: list[Area]
 
 
 class Task(Model):
     """Task object.
 
     Attributes:
-        id (str): Task ID.
-        name (str): Task name.
-        description (str): Task description.
+        id: Task ID.
+        name: Task name.
+        description: Task description.
     """
 
     id: str
@@ -49,10 +49,10 @@ class TaskCreateRequest(Model):
     """Task object.
 
     Attributes:
-        name (str): Task name.
-        description (str): Task description.
-        area (str, optional): Task area ID or area name.
-        parent_task (str, optional): ID of the parent task.
+        name: Task name.
+        description: Task description.
+        area: Task area ID or area name.
+        parent_task: ID of the parent task.
     """
 
     name: str
@@ -65,10 +65,10 @@ class TaskUpdateRequest(Model):
     """Evaluation table row object.
 
     Attributes:
-        name (str, optional): Task name.
-        description (str, optional): Task description.
-        area (str, optional): Task area ID.
-        parent_task (str, optional): ID of the parent task.
+        name: Task name.
+        description: Task description.
+        area: Task area ID.
+        parent_task: ID of the parent task.
     """
 
     name: Optional[str] = None
@@ -81,10 +81,10 @@ class Tasks(Page):
     """Object representing a paginated page of tasks.
 
     Attributes:
-        count (int): Number of elements matching the query.
-        next_page (int, optional): Number of the next page.
-        previous_page (int, optional): Number of the previous page.
-        results (List[Task]): List of tasks on this page.
+        count: Number of elements matching the query.
+        next_page: Number of the next page.
+        previous_page: Number of the previous page.
+        results: List of tasks on this page.
     """
 
-    results: List[Task]
+    results: list[Task]

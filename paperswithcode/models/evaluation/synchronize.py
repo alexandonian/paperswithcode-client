@@ -1,5 +1,5 @@
 from pydantic import Field
-from typing import Optional, List
+from typing import Optional
 
 from paperswithcode.models.model import Model
 from paperswithcode.models.evaluation.result import _ResultRequest
@@ -9,16 +9,14 @@ class ResultSyncRequest(_ResultRequest):
     """Evaluation table row object.
 
     Attributes:
-        metrics (dict): Dictionary of metrics and metric values.
-        methodology (str): Methodology used for this implementation.
-        uses_additional_data (bool): Does this evaluation uses additional data
-            not provided in the dataset used for other evaluations.
-        paper (str, optional): Paper describing the evaluation.
-        external_id (str, optional): Optional external ID used to identify rows
-            when doing sync.
-        evaluated_on (str): Evaluation date in YYYY-MM-DD format
-        external_source_url (str, option): The URL to the external source (eg
-            competition).
+        metrics: Dictionary of metrics and metric values.
+        methodology: Methodology used for this implementation.
+        uses_additional_data: Does this evaluation uses additional data not provided
+            in the dataset used for other evaluations.
+        paper: Paper describing the evaluation.
+        external_id: Optional external ID used to identify rows when doing sync.
+        evaluated_on: Evaluation date in YYYY-MM-DD format
+        external_source_url: The URL to the external source (eg competition).
     """
 
     metrics: dict
@@ -36,9 +34,9 @@ class MetricSyncRequest(Model):
     Metric used for evaluation.
 
     Attributes:
-        name (str): Metric name.
-        description (str): Metric description.
-        is_loss (bool): Is this a loss metric.
+        name: Metric name.
+        description: Metric description.
+        is_loss: Is this a loss metric.
     """
 
     name: str
@@ -50,17 +48,13 @@ class EvaluationTableSyncRequest(Model):
     """Evaluation table object.
 
     Attributes:
-        task (str): ID of the task used in evaluation.
-        dataset (str): ID of the dataset used in evaluation.
-        description (str): Evaluation table description.
-        mirror_url (str, optional): URL to the evaluation table that this table
-            is a mirror of.
-        external_id (str, optional): Optional external ID used to identify rows
-            when doing sync.
-        metric (list): List of MetricSyncRequest objects used in the
-            evaluation.
-        results (list): List of ResultSyncRequest objects - results of the
-            evaluation.
+        task: ID of the task used in evaluation.
+        dataset: ID of the dataset used in evaluation.
+        description: Evaluation table description.
+        mirror_url: URL to the evaluation table that this table is a mirror of.
+        external_id: Optional external ID used to identify rows when doing sync.
+        metric: List of MetricSyncRequest objects used in the evaluation.
+        results: List of ResultSyncRequest objects - results of the evaluation.
     """
 
     task: str
@@ -68,25 +62,23 @@ class EvaluationTableSyncRequest(Model):
     description: str = ""
     mirror_url: Optional[str] = None
     external_id: Optional[str] = None
-    metrics: List[MetricSyncRequest] = Field(default_factory=list)
-    results: List[ResultSyncRequest] = Field(default_factory=list)
+    metrics: list[MetricSyncRequest] = Field(default_factory=list)
+    results: list[ResultSyncRequest] = Field(default_factory=list)
 
 
 class ResultSyncResponse(Model):
     """Evaluation table row object.
 
     Attributes:
-        id (str): Result id.
-        metrics (dict): Dictionary of metrics and metric values.
-        methodology (str): Methodology used for this implementation.
-        uses_additional_data (bool): Does this evaluation uses additional data
-            not provided in the dataset used for other evaluations.
-        paper (str, optional): Paper describing the evaluation.
-        external_id (str, optional): Optional external ID used to identify rows
-            when doing sync.
-        evaluated_on (str, optional): Evaluation date in YYYY-MM-DD format
-        external_source_url (str, option): The URL to the external source (eg
-            competition)
+        id: Result id.
+        metrics: Dictionary of metrics and metric values.
+        methodology: Methodology used for this implementation.
+        uses_additional_data: Does this evaluation uses additional data not provided
+            in the dataset used for other evaluations.
+        paper: Paper describing the evaluation.
+        external_id: Optional external ID used to identify rows when doing sync.
+        evaluated_on: Evaluation date in YYYY-MM-DD format
+        external_source_url: The URL to the external source (eg competition)
     """
 
     id: str
@@ -105,9 +97,9 @@ class MetricSyncResponse(Model):
     Metric used for evaluation.
 
     Attributes:
-        name (str): Metric name.
-        description (str): Metric description.
-        is_loss (bool): Is this a loss metric.
+        name: Metric name.
+        description: Metric description.
+        is_loss: Is this a loss metric.
     """
 
     name: str
@@ -119,17 +111,14 @@ class EvaluationTableSyncResponse(Model):
     """Evaluation table object.
 
     Attributes:
-        id (str): Evaluation table ID.
-        task (str): ID of the task used in evaluation.
-        dataset (str): ID of the dataset used in evaluation.
-        description (str): Evaluation table description.
-        mirror_url (str, optional): URL to the evaluation table that this table
-            is a mirror of.
-        external_id (str, optional): Optional external ID used to identify rows
-            when doing sync.
-        metric (list): List of metrics sync objects used in the evaluation.
-        results (list): List of result sync objects - results of the
-            evaluation.
+        id: Evaluation table ID.
+        task: ID of the task used in evaluation.
+        dataset: ID of the dataset used in evaluation.
+        description: Evaluation table description.
+        mirror_url: URL to the evaluation table that this table is a mirror of.
+        external_id: Optional external ID used to identify rows when doing sync.
+        metric: List of metrics sync objects used in the evaluation.
+        results: List of result sync objects - results of the evaluation.
     """
 
     id: str
@@ -138,5 +127,5 @@ class EvaluationTableSyncResponse(Model):
     description: str = ""
     mirror_url: Optional[str] = None
     external_id: Optional[str] = ""
-    metrics: List[MetricSyncResponse] = Field(default_factory=list)
-    results: List[ResultSyncResponse] = Field(default_factory=list)
+    metrics: list[MetricSyncResponse] = Field(default_factory=list)
+    results: list[ResultSyncResponse] = Field(default_factory=list)

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 
 from paperswithcode.models.page import Page
@@ -9,10 +9,10 @@ class Dataset(Model):
     """Dataset object.
 
     Attributes:
-        id (str): Dataset ID.
-        name (str): Dataset name.
-        full_name (str, optional): Dataset full name.
-        url (str, optional): URL for dataset download.
+        id: Dataset ID.
+        name: Dataset name.
+        full_name: Dataset full name.
+        url: URL for dataset download.
     """
 
     id: str
@@ -25,9 +25,9 @@ class DatasetCreateRequest(Model):
     """Task object.
 
     Attributes:
-        name (str): Dataset name.
-        full_name (str, optional): Dataset full name.
-        url (str, optional): Dataset url.
+        name: Dataset name.
+        full_name: Dataset full name.
+        url: Dataset url.
     """
 
     name: str
@@ -39,8 +39,8 @@ class DatasetUpdateRequest(Model):
     """Evaluation table row object.
 
     Attributes:
-        name (str, optional): Dataset name.
-        url (str, optional): Dataset url.
+        name: Dataset name.
+        url: Dataset url.
     """
 
     name: Optional[str] = None
@@ -51,10 +51,10 @@ class Datasets(Page):
     """Object representing a paginated page of datasets.
 
     Attributes:
-        count (int): Number of elements matching the query.
-        next_page (int, optional): Number of the next page.
-        previous_page (int, optional): Number of the previous page.
-        results (List[Dataset]): List of datasets on this page.
+        count: Number of elements matching the query.
+        next_page: Number of the next page.
+        previous_page: Number of the previous page.
+        results: List of datasets on this page.
     """
 
-    results: List[Dataset]
+    results: list[Dataset]

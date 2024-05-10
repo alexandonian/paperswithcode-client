@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from paperswithcode.models.page import Page
 from paperswithcode.models.model import Model
@@ -8,14 +8,14 @@ class Repository(Model):
     """Repository object.
 
     Attributes:
-        url (str): URL of the repository.
-        owner (str): Repository owner.
-        name (str): Repository name.
-        description (str): Repository description.
-        stars (int): Number of repository stars.
-        framework (str): Implementation framework (TensorFlow, PyTorch, MXNet,
-            Torch, Jax, Caffee2...).
-        is_official (bool): Is this an official implementation of the paper.
+        url: URL of the repository.
+        owner: Repository owner.
+        name: Repository name.
+        description: Repository description.
+        stars: Number of repository stars.
+        framework: Implementation framework (TensorFlow, PyTorch, MXNet, Torch, Jax,
+            Caffee2...).
+        is_official: Is this an official implementation of the paper.
             Available only when listing repositories for a specific paper.
     """
 
@@ -38,4 +38,4 @@ class Repositories(Page):
         results (List[Repository]): List of repositories on this page.
     """
 
-    results: List[Repository]
+    results: list[Repository]

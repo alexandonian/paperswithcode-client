@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional
 
 from paperswithcode.models.page import Page
 from paperswithcode.models.model import Model
@@ -10,10 +10,10 @@ class Metric(Model):
     Metric used for evaluation.
 
     Attributes:
-        id (str): Metric id.
-        name (str): Metric name.
-        description (str): Metric description.
-        is_loss (bool): Is this a loss metric.
+        id: Metric id.
+        name: Metric name.
+        description: Metric description.
+        is_loss: Is this a loss metric.
     """
 
     id: str
@@ -26,13 +26,13 @@ class Metrics(Page):
     """Object representing a paginated page of metrics.
 
     Attributes:
-        count (int): Number of elements matching the query.
-        next_page (int, optional): Number of the next page.
-        previous_page (int, optional): Number of the previous page.
-        results (List[Metric]): List of metrics on this page.
+        count: Number of elements matching the query.
+        next_page: Number of the next page.
+        previous_page: Number of the previous page.
+        results: List of metrics on this page.
     """
 
-    results: List[Metric]
+    results: list[Metric]
 
 
 class MetricCreateRequest(Model):
@@ -41,9 +41,9 @@ class MetricCreateRequest(Model):
     Metric used for evaluation.
 
     Attributes:
-        name (str): Metric name.
-        description (str): Metric description.
-        is_loss (bool): Is this a loss metric.
+        name: Metric name.
+        description: Metric description.
+        is_loss: Is this a loss metric.
     """
 
     name: str
@@ -57,9 +57,9 @@ class MetricUpdateRequest(Model):
     Metric used for evaluation.
 
     Attributes:
-        name (str, optional): Metric name.
-        description (str, optional): Metric description.
-        is_loss (bool, optional): Is this a loss metric.
+        name: Metric name.
+        description: Metric description.
+        is_loss: Is this a loss metric.
     """
 
     name: Optional[str] = None

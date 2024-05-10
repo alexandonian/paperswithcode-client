@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from paperswithcode.models.page import Page
 from paperswithcode.models.model import Model
@@ -8,12 +8,11 @@ class EvaluationTable(Model):
     """Evaluation table object.
 
     Attributes:
-        id (str): Evaluation table ID.
-        task (str): ID of the task used in evaluation.
-        dataset (str): ID of the dataset used in evaluation.
-        description (str): Evaluation table description.
-        mirror_url (str, optional): URL to the evaluation table that this table
-            is a mirror of.
+        id: Evaluation table ID.
+        task: ID of the task used in evaluation.
+        dataset: ID of the dataset used in evaluation.
+        description: Evaluation table description.
+        mirror_url: URL to the evaluation table that this table is a mirror of.
     """
 
     id: str
@@ -27,11 +26,10 @@ class EvaluationTableCreateRequest(Model):
     """Evaluation table create request object.
 
     Attributes:
-        task (str): ID of the task used in evaluation.
-        dataset (str): ID of the dataset used in evaluation.
-        description (str): Evaluation table description.
-        mirror_url (str, optional): URL to the evaluation table that this table
-            is a mirror of.
+        task: ID of the task used in evaluation.
+        dataset: ID of the dataset used in evaluation.
+        description: Evaluation table description.
+        mirror_url: URL to the evaluation table that this table is a mirror of.
     """
 
     task: str
@@ -44,11 +42,10 @@ class EvaluationTableUpdateRequest(Model):
     """Evaluation table update request object.
 
     Attributes:
-        task (str, optional): ID of the task used in evaluation.
-        dataset (str, optional): ID of the dataset used in evaluation.
-        description (str, optional): Evaluation table description.
-        mirror_url (str, optional): URL to the evaluation table that this table
-            is a mirror of.f
+        task: ID of the task used in evaluation.
+        dataset: ID of the dataset used in evaluation.
+        description: Evaluation table description.
+        mirror_url: URL to the evaluation table that this table is a mirror of.
     """
 
     task: Optional[str] = None
@@ -61,10 +58,10 @@ class EvaluationTables(Page):
     """Object representing a paginated page of evaluation tables.
 
     Attributes:
-        count (int): Number of elements matching the query.
-        next_page (int, optional): Number of the next page.
-        previous_page (int, optional): Number of the previous page.
-        results (List[SotaPartial]): List of evaluation tables on this page.
+        count: Number of elements matching the query.
+        next_page: Number of the next page.
+        previous_page: Number of the previous page.
+        results: List of evaluation tables on this page.
     """
 
-    results: List[EvaluationTable]
+    results: list[EvaluationTable]

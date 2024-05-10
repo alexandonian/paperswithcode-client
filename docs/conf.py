@@ -25,6 +25,7 @@ release = __version__
 
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "myst_parser",
 ]
@@ -53,3 +54,4 @@ autodoc_default_options = {
     "special-members": "__init__",
     "undoc-members": True,
 }
+autodoc_typehints_format = "short"

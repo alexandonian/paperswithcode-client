@@ -1,5 +1,5 @@
+from typing import Optional
 from datetime import datetime
-from typing import Optional, List
 
 from paperswithcode.models.page import Page
 from paperswithcode.models.model import Model
@@ -9,18 +9,16 @@ class Result(Model):
     """Evaluation table row object.
 
     Attributes:
-        id (str): Result id.
-        best_rank (int, optional): Best rank of the row.
-        metrics (dict): Dictionary of metrics and metric values.
-        methodology (str): Methodology used for this implementation.
-        uses_additional_data (bool): Does this evaluation uses additional data
-            not provided in the dataset used for other evaluations.
-        paper (str, optional): Paper describing the evaluation.
-        best_metric (str, optional): Name of the best metric.
-        evaluated_on (str, optional): Date of the result evaluation in
-            YYYY-MM-DD format.
-        external_source_url (str, option): The URL to the external source (eg
-            competition).
+        id: Result id.
+        best_rank: Best rank of the row.
+        metrics: Dictionary of metrics and metric values.
+        methodology: Methodology used for this implementation.
+        uses_additional_data: Does this evaluation uses additional data not provided
+            in the dataset used for other evaluations.
+        paper: Paper describing the evaluation.
+        best_metric: Name of the best metric.
+        evaluated_on: Date of the result evaluation in YYYY-MM-DD format.
+        external_source_url: The URL to the external source (eg competition).
     """
 
     id: str
@@ -38,13 +36,13 @@ class Results(Page):
     """Object representing a paginated page of results.
 
     Attributes:
-        count (int): Number of elements matching the query.
-        next_page (int, optional): Number of the next page.
-        previous_page (int, optional): Number of the previous page.
-        results (List[Result]): List of results on this page.
+        count: Number of elements matching the query.
+        next_page: Number of the next page.
+        previous_page: Number of the previous page.
+        results: List of results on this page.
     """
 
-    results: List[Result]
+    results: list[Result]
 
 
 class _ResultRequest(Model):
@@ -78,16 +76,13 @@ class ResultCreateRequest(_ResultRequest):
     """Evaluation table row object.
 
     Attributes:
-        metrics (dict): Dictionary of metrics and metric values.
-        methodology (str): Methodology used for this implementation.
-        uses_additional_data (bool, optional): Does this evaluation uses
-            additional data not provided in the dataset used for other
-            valuations.
-        paper (str, optional): Paper describing the evaluation.
-        evaluated_on (str, optional): Date of the result evaluation: YYYY-MM-DD
-            format.
-        external_source_url (str, option): The URL to the external source (eg
-            competition).
+        metrics: Dictionary of metrics and metric values.
+        methodology: Methodology used for this implementation.
+        uses_additional_data: Does this evaluation uses additional data not provided
+            in the dataset used for other valuations.
+        paper: Paper describing the evaluation.
+        evaluated_on: Date of the result evaluation: YYYY-MM-DD format.
+        external_source_url: The URL to the external source (eg competition).
     """
 
     metrics: dict
@@ -102,16 +97,13 @@ class ResultUpdateRequest(_ResultRequest):
     """Evaluation table row object.
 
     Attributes:
-        metrics (dict, optional): Dictionary of metrics and metric values.
-        methodology (str, optional): Methodology used for this implementation.
-        uses_additional_data (bool, optional): Does this evaluation uses
-            additional data not provided in the dataset used for other
-            evaluations.
-        paper (str, optional): Paper describing the evaluation.
-        evaluated_on (datetime, optional): Date of the result evaluation:
-            YYYY-MM-DD format.
-        external_source_url (str, option): The URL to the external source (eg
-            competition).
+        metrics: Dictionary of metrics and metric values.
+        methodology: Methodology used for this implementation.
+        uses_additional_data: Does this evaluation uses additional data not provided
+            in the dataset used for other evaluations.
+        paper: Paper describing the evaluation.
+        evaluated_on: Date of the result evaluation: YYYY-MM-DD format.
+        external_source_url: The URL to the external source (eg competition).
     """
 
     metrics: Optional[dict] = None

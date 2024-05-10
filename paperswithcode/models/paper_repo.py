@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 
 from paperswithcode.models.page import Page
@@ -11,9 +11,9 @@ class PaperRepo(Model):
     """Paper <-> Repository object.
 
     Attributes:
-        paper (Paper): Paper objects.
-        repository (Repository, optional): Repository object.
-        is_official (bool): Is this the official implementation.
+        paper: Paper objects.
+        repository: Repository object.
+        is_official: Is this the official implementation.
     """
 
     paper: Paper
@@ -25,10 +25,10 @@ class PaperRepos(Page):
     """Object representing a paginated page of paper<->repos.
 
     Attributes:
-        count (int): Number of elements matching the query.
-        next_page (int, optional): Number of the next page.
-        previous_page (int, optional): Number of the previous page.
-        results (List[PaperRepo]): List of paper<->repos on this page.
+        count: Number of elements matching the query.
+        next_page: Number of the next page.
+        previous_page: Number of the previous page.
+        results: List of paper<->repos on this page.
     """
 
-    results: List[PaperRepo]
+    results: list[PaperRepo]

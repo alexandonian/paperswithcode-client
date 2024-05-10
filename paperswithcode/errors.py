@@ -130,7 +130,7 @@ class SerializationError(ClientError):
         """Thrown when the client cannot serialize or deserialize an object.
 
         Args:
-            errors (dict): Dictionary of found errors
+            errors: Dictionary of found errors
         """
         super().__init__("Serialization error.")
         self.errors = errors

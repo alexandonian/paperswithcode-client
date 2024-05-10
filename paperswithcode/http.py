@@ -41,10 +41,10 @@ class HttpClient:
         """Initialize.
 
         Args:
-            url (str): URL to the Traktor server.
-            token (str): Traktor authentication token.
-            authorization_method (AuthorizationMethod): Authorization method.
-            timeout (int): Request timeout time.
+            url: URL to the Traktor server.
+            token: Traktor authentication token.
+            authorization_method: Authorization method.
+            timeout: Request timeout time.
         """
         self.url = url
         self.token = token
@@ -64,21 +64,24 @@ class HttpClient:
         params: Optional[Dict[str, str]] = None,
         data: Optional[Model] = None,
         timeout: Optional[float] = None,
-    ):
+    ) -> dict:
         """Request method.
 
         Request method handles all the url joining, header merging, logging and
         error handling.
 
         Args:
-            method (str): Method for the request - GET or POST
-            url (str): Partial url of the request. It is added to the base url
-            headers (dict): Dictionary of additional HTTP headers
-            params (dict): Dictionary of query parameters for the request
-            data (BaseModel): A JSON serializable Python object to send in the
-                body of the request. Used only in POST requests.
-            timeout (float): How many seconds to wait for the server to send
-                data before giving up.
+            method: Method for the request - GET or POST
+            url: Partial url of the request. It is added to the base url
+            headers: Dictionary of additional HTTP headers
+            params: Dictionary of query parameters for the request
+            data: A JSON serializable Python object to send in the body of the request.
+                Used only in POST requests.
+            timeout: How many seconds to wait for the server to send data before
+                giving up.
+
+        Returns:
+            Deserialized json response.
         """
         headers = {**self.headers, **(headers or {})}
 
@@ -185,18 +188,18 @@ class HttpClient:
         headers: Optional[Dict[str, str]] = None,
         params: Optional[Dict[str, str]] = None,
         timeout: Optional[float] = None,
-    ):
+    ) -> dict:
         """Perform get request.
 
         Args:
-            url (str): Partial url of the request. It is added to the base url
-            headers (dict): Dictionary of additional HTTP headers
-            params (dict): Dictionary of query parameters for the request
-            timeout (float): How many seconds to wait for the server to send
-                data before giving up
+            url: Partial url of the request. It is added to the base url
+            headers: Dictionary of additional HTTP headers
+            params: Dictionary of query parameters for the request
+            timeout: How many seconds to wait for the server to send data before
+                giving up.
 
         Returns:
-            dict: Deserialized json response.
+            Deserialized json response.
 
         """
         return self.request(
@@ -214,20 +217,19 @@ class HttpClient:
         params: Optional[Dict[str, str]] = None,
         data: Optional[Model] = None,
         timeout: Optional[float] = None,
-    ):
+    ) -> dict:
         """Perform patch request.
 
         Args:
-            url (str): Partial url of the request. It is added to the base url
-            headers (dict): Dictionary of additional HTTP headers
-            params (dict): Dictionary of query parameters for the request
-            data (dict): A JSON serializable Python object to send in the body
-                of the request.
-            timeout (float): How many seconds to wait for the server to send
-                data before giving up
+            url: Partial url of the request. It is added to the base url
+            headers: Dictionary of additional HTTP headers
+            params: Dictionary of query parameters for the request
+            data: A JSON serializable Python object to send in the body of the request.
+            timeout: How many seconds to wait for the server to send data before
+                giving up.
 
         Returns:
-            dict: Deserialized json response.
+            Deserialized json response.
 
         """
         return self.request(
@@ -246,20 +248,19 @@ class HttpClient:
         params: Optional[Dict[str, str]] = None,
         data: Optional[Model] = None,
         timeout: Optional[float] = None,
-    ):
+    ) -> dict:
         """Perform post request.
 
         Args:
-            url (str): Partial url of the request. It is added to the base url
-            headers (dict): Dictionary of additional HTTP headers
-            params (dict): Dictionary of query parameters for the request
-            data (dict): A JSON serializable Python object to send in the body
-                of the request.
-            timeout (float): How many seconds to wait for the server to send
+            url: Partial url of the request. It is added to the base url
+            headers: Dictionary of additional HTTP headers
+            params: Dictionary of query parameters for the request
+            data: A JSON serializable Python object to send in the body of the request.
+            timeout: How many seconds to wait for the server to send
                 data before giving up
 
         Returns:
-            dict: Deserialized json response.
+            Deserialized json response.
 
         """
         return self.request(
@@ -277,18 +278,18 @@ class HttpClient:
         headers: Optional[Dict[str, str]] = None,
         params: Optional[Dict[str, str]] = None,
         timeout: Optional[float] = None,
-    ):
+    ) -> dict:
         """Perform delete request.
 
         Args:
-            url (str): Partial url of the request. It is added to the base url
-            headers (dict): Dictionary of additional HTTP headers
-            params (dict): Dictionary of query parameters for the request
-            timeout (float): How many seconds to wait for the server to send
-                data before giving up
+            url: Partial url of the request. It is added to the base url
+            headers: Dictionary of additional HTTP headers
+            params: Dictionary of query parameters for the request
+            timeout: How many seconds to wait for the server to send data before
+                giving up
 
         Returns:
-            dict: Deserialized json response.
+            Deserialized json response.
         """
         return self.request(
             method="delete",

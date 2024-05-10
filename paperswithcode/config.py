@@ -7,7 +7,7 @@ from collections import defaultdict
 from configparser import ConfigParser
 from typing import Any, Callable, Optional, Type
 
-from paperswithcode import errors
+from paperswithcode import consts, errors
 from paperswithcode.enums import ConsoleFormat
 from paperswithcode.table import Column, RichTableMixin
 
@@ -52,14 +52,13 @@ class Config:
         # Path to the configuration file
         self.debug = True
         self.format: ConsoleFormat = ConsoleFormat.text
-        self.server_url = "https://paperswithcode.com"
+        self.server_url = consts.PAPERSWITHCODE_URL
         self.api_version = 1
         self.token_access = None
         self.token_refresh = None
 
         # Read the configuration file
-        self.config_dir = (Path("~").expanduser() / ".paperswithcode").resolve()
-        self.config_file = self.config_dir / "paperswithcode.ini"
+        self.config_file = Path(consts.DEFAULT_CONFIG_PATH).expanduser().resolve()
         self.load()
         self.save()
 
@@ -146,7 +145,7 @@ class Config:
     def save(self):
         try:
             # Create if it doesn't exist
-            self.config_dir.mkdir(parents=True, exist_ok=True)
+            self.config_file.parent.mkdir(parents=True, exist_ok=True)
             cp = ConfigParser()
             # If it already exists read the values
             if os.path.isfile(self.config_file):

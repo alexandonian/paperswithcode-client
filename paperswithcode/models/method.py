@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from paperswithcode.models.page import Page
 from paperswithcode.models.model import Model
@@ -8,11 +8,11 @@ class Method(Model):
     """Method object.
 
     Attributes:
-        id (str): Method ID.
-        name (str): Method short name.
-        full_name (str): Method full name.
-        description (str): Method description.
-        paper (str, optional): ID of the paper that describes the method.
+        id: Method ID.
+        name: Method short name.
+        full_name: Method full name.
+        description: Method description.
+        paper: ID of the paper that describes the method.
     """
 
     id: str
@@ -26,10 +26,10 @@ class Methods(Page):
     """Object representing a paginated page of methods.
 
     Attributes:
-        count (int): Number of elements matching the query.
-        next_page (int, optional): Number of the next page.
-        previous_page (int, optional): Number of the previous page.
-        results (List[Method]): List of methods on this page.
+        count: Number of elements matching the query.
+        next_page: Number of the next page.
+        previous_page: Number of the previous page.
+        results: List of methods on this page.
     """
 
-    results: List[Method]
+    results: list[Method]
