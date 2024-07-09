@@ -11,7 +11,7 @@ start calling methods on it:
 
 .. code-block:: python
 
-    >>> from paperswithcode import PapersWithCodeClient 
+    >>> from paperswithcode import PapersWithCodeClient
     >>> client = PapersWithCodeClient()
     >>> papers_page = client.paper_list()
     >>> papers_page.count

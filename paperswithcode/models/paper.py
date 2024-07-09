@@ -25,8 +25,8 @@ class Paper(Model):
     """
 
     id: str
-    arxiv_id: Optional[str]
-    nips_id: Optional[str]
+    arxiv_id: Optional[str] = None
+    nips_id: Optional[str] = None
     url_abs: str
     url_pdf: str
     title: str
@@ -34,9 +34,9 @@ class Paper(Model):
     authors: list[str]
     published: date
     conference: Optional[str]
-    conference_url_abs: Optional[str]
-    conference_url_pdf: Optional[str]
-    proceeding: Optional[str]
+    conference_url_abs: Optional[str] = None
+    conference_url_pdf: Optional[str] = None
+    proceeding: Optional[str] = None
 
 
 class Papers(Page):

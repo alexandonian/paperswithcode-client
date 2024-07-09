@@ -13,5 +13,5 @@ class Page(Model):
     """
 
     count: int
-    next_page: Optional[int]
-    previous_page: Optional[int]
+    next_page: Optional[int] = None
+    previous_page: Optional[int] = None

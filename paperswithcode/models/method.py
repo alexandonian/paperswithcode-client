@@ -19,7 +19,7 @@ class Method(Model):
     name: str
     full_name: str
     description: str
-    paper: Optional[str]
+    paper: Optional[str] = None
 
 
 class Methods(Page):

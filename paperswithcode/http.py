@@ -105,7 +105,7 @@ class HttpClient:
                         url=url,
                         headers=headers,
                         params=params,
-                        data=({} if data is None else data.dict()),
+                        data=({} if data is None else data.model_dump()),
                         timeout=timeout,
                     )
                 elif method.lower() == "post":
@@ -113,7 +113,7 @@ class HttpClient:
                         url=url,
                         headers=headers,
                         params=params,
-                        data=({} if data is None else data.dict()),
+                        data=({} if data is None else data.model_dump()),
                         timeout=timeout,
                     )
                 elif method.lower() == "delete":

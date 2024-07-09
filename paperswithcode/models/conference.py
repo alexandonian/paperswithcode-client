@@ -40,8 +40,8 @@ class Proceeding(Model):
     """
 
     id: str
-    year: Optional[int]
-    month: Optional[int]
+    year: Optional[int] = None
+    month: Optional[int] = None
 
 
 class Proceedings(Page):

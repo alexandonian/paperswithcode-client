@@ -21,7 +21,7 @@ class ResultSyncRequest(_ResultRequest):
 
     metrics: dict
     methodology: str
-    paper: Optional[str]
+    paper: Optional[str] = None
     uses_additional_data: bool = False
     external_id: Optional[str] = ""
     evaluated_on: str
@@ -84,7 +84,7 @@ class ResultSyncResponse(Model):
     id: str
     metrics: dict
     methodology: str
-    paper: Optional[str]
+    paper: Optional[str] = None
     uses_additional_data: bool = False
     external_id: Optional[str] = ""
     evaluated_on: Optional[str] = None

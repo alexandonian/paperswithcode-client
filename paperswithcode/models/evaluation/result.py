@@ -22,14 +22,14 @@ class Result(Model):
     """
 
     id: str
-    best_rank: Optional[int]
+    best_rank: Optional[int] = None
     metrics: dict
     methodology: str
     uses_additional_data: bool
-    paper: Optional[str]
-    best_metric: Optional[str]
-    evaluated_on: Optional[str]
-    external_source_url: Optional[str]
+    paper: Optional[str] = None
+    best_metric: Optional[str] = None
+    evaluated_on: Optional[str] = None
+    external_source_url: Optional[str] = None
 
 
 class Results(Page):
@@ -46,22 +46,20 @@ class Results(Page):
 
 
 class _ResultRequest(Model):
-    def dict(
+    def model_dump(
         self,
         *,
         include=None,
         exclude=None,
         by_alias: bool = False,
-        skip_defaults: bool = False,
         exclude_unset: bool = False,
         exclude_defaults: bool = False,
         exclude_none: bool = False,
     ):
-        d = super().dict(
+        d = super().model_dump(
             include=include,
             exclude=exclude,
             by_alias=by_alias,
-            skip_defaults=skip_defaults,
             exclude_unset=exclude_unset,
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,

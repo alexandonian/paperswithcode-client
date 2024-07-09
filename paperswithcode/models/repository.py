@@ -25,7 +25,7 @@ class Repository(Model):
     description: str
     stars: int
     framework: str
-    is_official: Optional[bool]
+    is_official: Optional[bool] = None
 
 
 class Repositories(Page):
