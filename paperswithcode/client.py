@@ -60,14 +60,15 @@ def handler(func):
         try:
             return func(self, *args, **kwargs)
         except HttpClientError as e:
-            if e.status_code == 401:
-                # Try to refresh the token and call the function again.
-                if self.http.authorization_method == self.http.Authorization.jwt:
-                    try:
-                        self.refresh()
-                        return func(self, *args, **kwargs)
-                    except Exception as e:
-                        logger.warning("Failed to refresh token: %s", e)
+            if (
+                e.status_code == 401
+                and self.http.authorization_method == self.http.Authorization.jwt
+            ):
+                try:
+                    self.refresh()
+                    return func(self, *args, **kwargs)
+                except Exception as e:
+                    logger.warning("Failed to refresh token: %s", e)
             raise
         except PydanticValidationError as e:
             raise ValidationError(error=e)
@@ -99,9 +100,8 @@ class PapersWithCodeClient:
         p = parse.urlparse(url)
         if p.query == "":
             return 1
-        else:
-            q = parse.parse_qs(p.query)
-            return int(q.get("page", [1])[0])
+        q = parse.parse_qs(p.query)
+        return int(q.get("page", [1])[0])
 
     @classmethod
     def __page(cls, result, page_model):
@@ -205,7 +205,7 @@ class PapersWithCodeClient:
         paper_id: str,
         page: int = 1,
         items_per_page: int = 50,
-    ) -> Repositories:
+    ) -> Datasets:
         """Return a list of datasets mentioned in the paper..
 
         Args:
@@ -324,7 +324,7 @@ class PapersWithCodeClient:
         ordering: Optional[str] = None,
         page: int = 1,
         items_per_page: int = 50,
-    ) -> Papers:
+    ) -> Repositories:
         """Return a paginated list of repositories.
 
         Args:
