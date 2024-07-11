@@ -32,8 +32,8 @@ class Paper(Model):
     title: str
     abstract: str
     authors: list[str]
-    published: date
-    conference: Optional[str]
+    published: Optional[date] = None
+    conference: Optional[str] = None
     conference_url_abs: Optional[str] = None
     conference_url_pdf: Optional[str] = None
     proceeding: Optional[str] = None
